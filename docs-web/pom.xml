@@ -180,12 +180,12 @@
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-maven-plugin</artifactId>
             <configuration>
-              <systemProperties>
-                <application.mode>dev</application.mode>
-                <docs.home>../data/docs</docs.home>
-              </systemProperties>
+              <httpConnector>
+                <port>8080</port>
+              </httpConnector>
+              <systemPropertiesFile>${project.basedir}/src/dev/resources/jetty-system.properties</systemPropertiesFile>
               <webApp>
-                <contextPath>/docs-web</contextPath>
+                <contextPath>/</contextPath>
                 <overrideDescriptor>${project.basedir}/src/dev/main/webapp/web-override.xml</overrideDescriptor>
               </webApp>
             </configuration>
