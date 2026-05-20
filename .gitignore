@@ -14,8 +14,11 @@ import_test
 teedy-importer-linux
 teedy-importer-macos
 teedy-importer-win.exe
+jenkins.war
 docs/*
 !docs/.gitkeep
 
 #macos
 .DS_Store
+
+*.pdf
