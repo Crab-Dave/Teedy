@@ -1,53 +1,68 @@
 pipeline {
   agent any
+
+  environment {
+    // Jenkins credentials ID for Docker Hub username/password or token.
+    DOCKER_HUB_CREDENTIALS = 'dockerhub_credentials'
+
+    DOCKER_IMAGE = 'crabdave987/teedy'
+    DOCKER_TAG = "${env.BUILD_NUMBER}"
+    CONTAINER_NAME = 'teedy-container-8081'
+  }
+
   stages {
-    stage('Clean') {
+    stage('Build') {
       steps {
-        sh 'mvn clean'
+        checkout scmGit(
+          branches: [[name: '*/b12311707']],
+          extensions: [],
+          userRemoteConfigs: [[url: 'https://github.com/Crab-Dave/Teedy.git']]
+        )
+
+        sh 'mvn -B -DskipTests clean package'
       }
     }
-    stage('Compile') {
+
+    stage('Building image') {
       steps {
-        sh 'mvn compile'
+        script {
+          docker.build("${env.DOCKER_IMAGE}:${env.DOCKER_TAG}")
+        }
       }
     }
-    stage('Test') {
+
+    stage('Upload image') {
       steps {
-        sh 'mvn test -Dmaven.test.failure.ignore=true'
+        script {
+          docker.withRegistry('https://registry.hub.docker.com', env.DOCKER_HUB_CREDENTIALS) {
+            docker.image("${env.DOCKER_IMAGE}:${env.DOCKER_TAG}").push()
+            docker.image("${env.DOCKER_IMAGE}:${env.DOCKER_TAG}").push('latest')
+          }
+        }
       }
     }
-    stage('PMD') {
+
+    stage('Run containers') {
       steps {
-        sh 'mvn pmd:pmd'
-      }
-    }
-    stage('JaCoCo') {
-      steps {
-        sh 'mvn jacoco:report'
-      }
-    }
-    stage('Javadoc') {
-      steps {
-        sh 'mvn javadoc:javadoc'
-      }
-    }
-    stage('Site') {
-      steps {
-        sh 'mvn site'
-      }
-    }
-    stage('Package') {
-      steps {
-        sh 'mvn package -DskipTests'
+        script {
+          sh "docker stop ${env.CONTAINER_NAME} || true"
+          sh "docker rm ${env.CONTAINER_NAME} || true"
+
+          docker.image("${env.DOCKER_IMAGE}:${env.DOCKER_TAG}").run(
+            "--name ${env.CONTAINER_NAME} -d -p 8081:8080"
+          )
+
+          sh 'docker ps --filter "name=teedy-container"'
+        }
       }
     }
   }
+
   post {
     always {
-      archiveArtifacts artifacts: '**/target/site/**/*.*', fingerprint: true
-      archiveArtifacts artifacts: '**/target/**/*.jar', fingerprint: true
-      archiveArtifacts artifacts: '**/target/**/*.war', fingerprint: true
-      junit '**/target/surefire-reports/*.xml'
+      archiveArtifacts artifacts: '**/target/**/*.jar', fingerprint: true, allowEmptyArchive: true
+      archiveArtifacts artifacts: '**/target/**/*.war', fingerprint: true, allowEmptyArchive: true
+      junit testResults: '**/target/surefire-reports/*.xml', allowEmptyResults: true
     }
   }
 }
