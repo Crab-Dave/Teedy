@@ -15,6 +15,7 @@
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <argLine></argLine>
 
     <!-- Dependencies version (external) -->
     <org.apache.commons.commons-compress.version>1.22</org.apache.commons.commons-compress.version>
@@ -110,6 +111,7 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>${org.apache.maven.plugins.maven-surefire-plugin.version}</version>
         <configuration>
+          <argLine>${argLine} -Djava.awt.headless=true</argLine>
           <forkCount>1</forkCount>
           <reuseForks>false</reuseForks>
         </configuration>
@@ -151,6 +153,60 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>${org.apache.maven.plugins.maven-javadoc-plugin.version}</version>
+        <configuration>
+          <tags>
+            <tag>
+              <name>api</name>
+              <placement>a</placement>
+              <head>API:</head>
+            </tag>
+            <tag>
+              <name>apiDefine</name>
+              <placement>a</placement>
+              <head>API definition:</head>
+            </tag>
+            <tag>
+              <name>apiDescription</name>
+              <placement>a</placement>
+              <head>API description:</head>
+            </tag>
+            <tag>
+              <name>apiName</name>
+              <placement>a</placement>
+              <head>API name:</head>
+            </tag>
+            <tag>
+              <name>apiGroup</name>
+              <placement>a</placement>
+              <head>API group:</head>
+            </tag>
+            <tag>
+              <name>apiParam</name>
+              <placement>a</placement>
+              <head>API parameter:</head>
+            </tag>
+            <tag>
+              <name>apiSuccess</name>
+              <placement>a</placement>
+              <head>API success:</head>
+            </tag>
+            <tag>
+              <name>apiError</name>
+              <placement>a</placement>
+              <head>API error:</head>
+            </tag>
+            <tag>
+              <name>apiPermission</name>
+              <placement>a</placement>
+              <head>API permission:</head>
+            </tag>
+            <tag>
+              <name>apiVersion</name>
+              <placement>a</placement>
+              <head>API version:</head>
+            </tag>
+          </tags>
+        </configuration>
       </plugin>
     </plugins>
   </build>
@@ -185,6 +241,60 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>${org.apache.maven.plugins.maven-javadoc-plugin.version}</version>
+        <configuration>
+          <tags>
+            <tag>
+              <name>api</name>
+              <placement>a</placement>
+              <head>API:</head>
+            </tag>
+            <tag>
+              <name>apiDefine</name>
+              <placement>a</placement>
+              <head>API definition:</head>
+            </tag>
+            <tag>
+              <name>apiDescription</name>
+              <placement>a</placement>
+              <head>API description:</head>
+            </tag>
+            <tag>
+              <name>apiName</name>
+              <placement>a</placement>
+              <head>API name:</head>
+            </tag>
+            <tag>
+              <name>apiGroup</name>
+              <placement>a</placement>
+              <head>API group:</head>
+            </tag>
+            <tag>
+              <name>apiParam</name>
+              <placement>a</placement>
+              <head>API parameter:</head>
+            </tag>
+            <tag>
+              <name>apiSuccess</name>
+              <placement>a</placement>
+              <head>API success:</head>
+            </tag>
+            <tag>
+              <name>apiError</name>
+              <placement>a</placement>
+              <head>API error:</head>
+            </tag>
+            <tag>
+              <name>apiPermission</name>
+              <placement>a</placement>
+              <head>API permission:</head>
+            </tag>
+            <tag>
+              <name>apiVersion</name>
+              <placement>a</placement>
+              <head>API version:</head>
+            </tag>
+          </tags>
+        </configuration>
       </plugin>
 
       <plugin>
