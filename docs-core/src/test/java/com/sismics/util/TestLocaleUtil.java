@@ -13,7 +13,7 @@ public class TestLocaleUtil {
         Locale l1 = LocaleUtil.getLocale(null);
         Locale l2 = LocaleUtil.getLocale("");
         assertEquals(Locale.ENGLISH, l1);
-        assertEquals(Locale.ENGLISH, l2);e
+        assertEquals(Locale.ENGLISH, l2);
     }
 
     @Test
