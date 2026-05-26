@@ -1,6 +1,10 @@
 pipeline {
   agent any
 
+  options {
+    skipDefaultCheckout(true)
+  }
+
   environment {
     // Jenkins credentials ID for Docker Hub username/password or token.
     DOCKER_HUB_CREDENTIALS = 'dockerhub_credentials'
@@ -11,6 +15,12 @@ pipeline {
   }
 
   stages {
+    stage('Docker access') {
+      steps {
+        sh 'docker version'
+      }
+    }
+
     stage('Build') {
       steps {
         checkout scmGit(
@@ -62,7 +72,6 @@ pipeline {
     always {
       archiveArtifacts artifacts: '**/target/**/*.jar', fingerprint: true, allowEmptyArchive: true
       archiveArtifacts artifacts: '**/target/**/*.war', fingerprint: true, allowEmptyArchive: true
-      junit testResults: '**/target/surefire-reports/*.xml', allowEmptyResults: true
     }
   }
 }
