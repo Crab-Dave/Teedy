@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DEPLOYMENT_NAME = "hello-node"
-        CONTAINER_NAME = "minikube"
+        CONTAINER_NAME = "myteedy01"
         IMAGE_NAME = "crabdave987/teedy:latest"
     }
 
