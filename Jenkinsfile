@@ -3,8 +3,8 @@ pipeline {
 
     environment {
         DEPLOYMENT_NAME = "hello-node"
-        CONTAINER_NAME = "myteedy01"
-        IMAGE_NAME = "crabdave987/teedy"
+        CONTAINER_NAME = "minikube"
+        IMAGE_NAME = "gcr.io/k8s-minikube/kicbase:v0.0.50"
     }
 
     stages {
