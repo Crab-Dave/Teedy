@@ -10,6 +10,11 @@ pipeline {
     stages {
         stage('Start Minikube') {
             steps {
+                checkout scmGit(
+                  branches: [[name: '*/b12311707']],
+                  extensions: [],
+                  userRemoteConfigs: [[url: 'https://github.com/Crab-Dave/Teedy.git']]
+                )
                 sh '''
                     if ! minikube status | grep -q "Running"; then
                         echo "Starting Minikube..."
