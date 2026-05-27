@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DEPLOYMENT_NAME = "hello-node"
-        IMAGE_NAME = "gcr.io/k8s-minikube/kicbase:v0.0.50"
+        IMAGE_NAME = "sismics/docs:v1.11"
     }
 
     stages {
