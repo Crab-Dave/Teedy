@@ -3,7 +3,6 @@ pipeline {
 
     environment {
         DEPLOYMENT_NAME = "hello-node"
-        CONTAINER_NAME = "minikube"
         IMAGE_NAME = "gcr.io/k8s-minikube/kicbase:v0.0.50"
     }
 
@@ -25,6 +24,12 @@ pipeline {
             steps {
                 sh '''
                     echo "Setting image for deployment..."
+                    CONTAINER_NAME=$(kubectl get deployment "${DEPLOYMENT_NAME}" -o jsonpath='{.spec.template.spec.containers[0].name}')
+                    if [ -z "${CONTAINER_NAME}" ]; then
+                        echo "Failed to detect container name for deployment ${DEPLOYMENT_NAME}."
+                        exit 1
+                    fi
+                    echo "Using container name: ${CONTAINER_NAME}"
                     kubectl set image deployment/${DEPLOYMENT_NAME} ${CONTAINER_NAME}=${IMAGE_NAME}
                 '''
             }
